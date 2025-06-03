@@ -1,0 +1,371 @@
+schema: '2.0'
+stages:
+  train_mlp:
+    cmd: python src/train_mlp.py
+    deps:
+    - path: data/processed_split.npz
+      hash: md5
+      md5: d5ed764155dbd42ac121ad7e8e9b1b52
+      size: 90566
+    - path: params.yaml
+      hash: md5
+      md5: 8637de6e53fc687b93fde153ddc30427
+      size: 680
+    - path: src/train_mlp.py
+      hash: md5
+      md5: edcc06a30eed5b8b83e8d9cca0362914
+      size: 830
+    outs:
+    - path: models/train_mlp_model.joblib
+      hash: md5
+      md5: 475a05a54b0b2f3d824772eec64ac717
+      size: 167903
+  evaluate_mlp:
+    cmd: python src/evaluate_mlp.py
+    deps:
+    - path: data/processed_split.npz
+      hash: md5
+      md5: d5ed764155dbd42ac121ad7e8e9b1b52
+      size: 90566
+    - path: models/train_mlp_model.joblib
+      hash: md5
+      md5: 475a05a54b0b2f3d824772eec64ac717
+      size: 167903
+    - path: src/evaluate_mlp.py
+      hash: md5
+      md5: 532f7fdfed5ca498d893398de2997e69
+      size: 818
+    outs:
+    - path: metrics/evaluate_mlp_metrics.json
+      hash: md5
+      md5: e065f767f2592975d27b026b86be2206
+      size: 98
+  full_mlp:
+    cmd: python src/full_mlp.py
+    deps:
+    - path: data/processed_full.npz
+      hash: md5
+      md5: 8d8012f271d3cd1ad896287106bbe925
+      size: 90058
+    - path: models/train_mlp_model.joblib
+      hash: md5
+      md5: 475a05a54b0b2f3d824772eec64ac717
+      size: 167903
+    - path: src/full_mlp.py
+      hash: md5
+      md5: ade8856a974b62a88c79d7b190c4f798
+      size: 677
+    outs:
+    - path: metrics/full_mlp_metrics.json
+      hash: md5
+      md5: b7e6ab463cd051b23a2bc3c158057c30
+      size: 97
+  train_xgboost:
+    cmd: python src/train_xgboost.py
+    deps:
+    - path: data/processed_split.npz
+      hash: md5
+      md5: d5ed764155dbd42ac121ad7e8e9b1b52
+      size: 90566
+    - path: params.yaml
+      hash: md5
+      md5: 8637de6e53fc687b93fde153ddc30427
+      size: 680
+    - path: src/train_xgboost.py
+      hash: md5
+      md5: fe9b68e03196cb31383f4fac2503675c
+      size: 797
+    outs:
+    - path: models/train_xgboost_model.json
+      hash: md5
+      md5: 5d57ca8c7b30e09c2537605112094c30
+      size: 472672
+  evaluate_xgboost:
+    cmd: python src/evaluate_xgboost.py
+    deps:
+    - path: data/processed_split.npz
+      hash: md5
+      md5: d5ed764155dbd42ac121ad7e8e9b1b52
+      size: 90566
+    - path: models/train_xgboost_model.json
+      hash: md5
+      md5: 5d57ca8c7b30e09c2537605112094c30
+      size: 472672
+    - path: src/evaluate_xgboost.py
+      hash: md5
+      md5: b951e6c9c0dba6bf55e2de6bf090727e
+      size: 890
+    outs:
+    - path: metrics/evaluate_xgboost_feature_importance.csv
+      hash: md5
+      md5: fd1a64e87c41f4d19198099f2b76eaa5
+      size: 127
+    - path: metrics/evaluate_xgboost_metrics.json
+      hash: md5
+      md5: af9a9ed6b0b2e8708e29107649a96bcd
+      size: 96
+  full_xgboost:
+    cmd: python src/full_xgboost.py
+    deps:
+    - path: data/processed_full.npz
+      hash: md5
+      md5: 8d8012f271d3cd1ad896287106bbe925
+      size: 90058
+    - path: models/train_xgboost_model.json
+      hash: md5
+      md5: 5d57ca8c7b30e09c2537605112094c30
+      size: 472672
+    - path: src/full_xgboost.py
+      hash: md5
+      md5: d30845ebf8c5e3e86bdc0536ca12702f
+      size: 849
+    outs:
+    - path: metrics/full_xgboost_feature_importance.csv
+      hash: md5
+      md5: fd1a64e87c41f4d19198099f2b76eaa5
+      size: 127
+    - path: metrics/full_xgboost_metrics.json
+      hash: md5
+      md5: ea07584780e05432b3d8bd9db5c72653
+      size: 96
+  train_lr:
+    cmd: python src/train_lr.py
+    deps:
+    - path: data/processed_split.npz
+      hash: md5
+      md5: d5ed764155dbd42ac121ad7e8e9b1b52
+      size: 90566
+    - path: params.yaml
+      hash: md5
+      md5: 8637de6e53fc687b93fde153ddc30427
+      size: 680
+    - path: src/train_lr.py
+      hash: md5
+      md5: 97fe47a8ca1ab7da96223ebd8d74478c
+      size: 426
+    outs:
+    - path: models/train_lr_model.joblib
+      hash: md5
+      md5: aaed663e597c3d54451f6d3c0f5c1993
+      size: 680
+  evaluate_lr:
+    cmd: python src/evaluate_lr.py
+    deps:
+    - path: data/processed_split.npz
+      hash: md5
+      md5: d5ed764155dbd42ac121ad7e8e9b1b52
+      size: 90566
+    - path: models/train_lr_model.joblib
+      hash: md5
+      md5: aaed663e597c3d54451f6d3c0f5c1993
+      size: 680
+    - path: src/evaluate_lr.py
+      hash: md5
+      md5: 9c435586c36783bcadc2c410b80c6873
+      size: 902
+    outs:
+    - path: metrics/evaluate_lr_feature_importance.csv
+      hash: md5
+      md5: 5c8b8827d612e06b770f17cf49ac2ef9
+      size: 180
+    - path: metrics/evaluate_lr_metrics.json
+      hash: md5
+      md5: 5aa02dabb0033c3d1fceea822b4e2378
+      size: 95
+  full_lr:
+    cmd: python src/full_lr.py
+    deps:
+    - path: data/processed_full.npz
+      hash: md5
+      md5: 8d8012f271d3cd1ad896287106bbe925
+      size: 90058
+    - path: models/train_lr_model.joblib
+      hash: md5
+      md5: aaed663e597c3d54451f6d3c0f5c1993
+      size: 680
+    - path: src/full_lr.py
+      hash: md5
+      md5: 128f486d12603b4e343d39a3d58d3681
+      size: 806
+    outs:
+    - path: metrics/full_lr_feature_importance.csv
+      hash: md5
+      md5: 5c8b8827d612e06b770f17cf49ac2ef9
+      size: 180
+    - path: metrics/full_lr_metrics.json
+      hash: md5
+      md5: c71cfe8c003346e079a3be294df28fd6
+      size: 97
+  train_dt:
+    cmd: python src/train_dt.py
+    deps:
+    - path: data/processed_split.npz
+      hash: md5
+      md5: d5ed764155dbd42ac121ad7e8e9b1b52
+      size: 90566
+    - path: params.yaml
+      hash: md5
+      md5: 8637de6e53fc687b93fde153ddc30427
+      size: 680
+    - path: src/train_dt.py
+      hash: md5
+      md5: 668f448c705602a68e9fc54e06c145f0
+      size: 631
+    outs:
+    - path: models/train_dt_model.joblib
+      hash: md5
+      md5: 65a7ca552e483d084acdde5786f781b7
+      size: 108353
+  evaluate_dt:
+    cmd: python src/evaluate_dt.py
+    deps:
+    - path: data/processed_split.npz
+      hash: md5
+      md5: d5ed764155dbd42ac121ad7e8e9b1b52
+      size: 90566
+    - path: models/train_dt_model.joblib
+      hash: md5
+      md5: 65a7ca552e483d084acdde5786f781b7
+      size: 108353
+    - path: src/evaluate_dt.py
+      hash: md5
+      md5: c5b0d6e69adb01b3b3a11509d950775a
+      size: 928
+    outs:
+    - path: metrics/evaluate_dt_feature_importance.csv
+      hash: md5
+      md5: 3d2e83f6a635458d6bd3a22a3e76f474
+      size: 192
+    - path: metrics/evaluate_dt_metrics.json
+      hash: md5
+      md5: 2f1f5610fb9013f08f012c2adb74be25
+      size: 95
+  full_dt:
+    cmd: python src/full_dt.py
+    deps:
+    - path: data/processed_full.npz
+      hash: md5
+      md5: 8d8012f271d3cd1ad896287106bbe925
+      size: 90058
+    - path: models/train_dt_model.joblib
+      hash: md5
+      md5: 65a7ca552e483d084acdde5786f781b7
+      size: 108353
+    - path: src/full_dt.py
+      hash: md5
+      md5: daaebf52923126607eb065cfdead1900
+      size: 863
+    outs:
+    - path: metrics/full_dt_feature_importance.csv
+      hash: md5
+      md5: 3d2e83f6a635458d6bd3a22a3e76f474
+      size: 192
+    - path: metrics/full_dt_metrics.json
+      hash: md5
+      md5: 3b0eb85c664302be3bb497f307b5d909
+      size: 97
+  train_catboost:
+    cmd: python src/train_catboost.py
+    deps:
+    - path: data/processed_split.npz
+      hash: md5
+      md5: d5ed764155dbd42ac121ad7e8e9b1b52
+      size: 90566
+    - path: params.yaml
+      hash: md5
+      md5: 8637de6e53fc687b93fde153ddc30427
+      size: 680
+    - path: src/train_catboost.py
+      hash: md5
+      md5: 5d66382d2a483b3c5adb7b2857fd2af9
+      size: 942
+    outs:
+    - path: models/train_catboost_model.cb
+      hash: md5
+      md5: 7c062424dc96f13dbf7d11812b44b1fb
+      size: 1106816
+  evaluate_catboost:
+    cmd: python src/evaluate_catboost.py
+    deps:
+    - path: data/processed_split.npz
+      hash: md5
+      md5: d5ed764155dbd42ac121ad7e8e9b1b52
+      size: 90566
+    - path: models/train_catboost_model.cb
+      hash: md5
+      md5: 7c062424dc96f13dbf7d11812b44b1fb
+      size: 1106816
+    - path: src/evaluate_catboost.py
+      hash: md5
+      md5: b33a3dc30b8de2d2010110538f9168a4
+      size: 897
+    outs:
+    - path: metrics/evaluate_catboost_feature_importance.csv
+      hash: md5
+      md5: 6469e8cfa05ff72cd970b181e2d9ef31
+      size: 178
+    - path: metrics/evaluate_catboost_metrics.json
+      hash: md5
+      md5: 05b03c2e103bd43e20ec5de5a4d42f7b
+      size: 97
+  full_catboost:
+    cmd: python src/full_catboost.py
+    deps:
+    - path: data/processed_full.npz
+      hash: md5
+      md5: 8d8012f271d3cd1ad896287106bbe925
+      size: 90058
+    - path: models/train_catboost_model.cb
+      hash: md5
+      md5: 7c062424dc96f13dbf7d11812b44b1fb
+      size: 1106816
+    - path: src/full_catboost.py
+      hash: md5
+      md5: 553b0bb9137e33e358cf1238c416375a
+      size: 856
+    outs:
+    - path: metrics/full_catboost_feature_importance.csv
+      hash: md5
+      md5: 6469e8cfa05ff72cd970b181e2d9ef31
+      size: 178
+    - path: metrics/full_catboost_metrics.json
+      hash: md5
+      md5: 16b9b2fcb18ec6259443f74a26afdf36
+      size: 98
+  merge_metrics:
+    cmd: python src/merge_metrics.py
+    deps:
+    - path: metrics
+      hash: md5
+      md5: 734e1ba92a497f018bb79c897cb6c596.dir
+      size: 3050
+      nfiles: 19
+    - path: src/merge_metrics.py
+      hash: md5
+      md5: 4b2c4d72c2d66df348af1132782c7d2f
+      size: 1258
+    outs:
+    - path: results/all_metrics.csv
+      hash: md5
+      md5: 6a4c628f2f3fa1d387757a9d7fc4e093
+      size: 691
+  prepare_date:
+    cmd: python src/prepare_data.py
+    deps:
+    - path: data/insurance.csv
+      hash: md5
+      md5: fab0de8ef9286cf3ff04e96d0393a771
+      size: 50514
+    - path: src/prepare_data.py
+      hash: md5
+      md5: 1e26281740c5108dbbc74728fe363cdd
+      size: 1155
+    outs:
+    - path: data/processed_full.npz
+      hash: md5
+      md5: 8d8012f271d3cd1ad896287106bbe925
+      size: 90058
+    - path: data/processed_split.npz
+      hash: md5
+      md5: d5ed764155dbd42ac121ad7e8e9b1b52
+      size: 90566

@@ -1,0 +1,146 @@
+stages:
+  prepare_date:
+    cmd: python src/prepare_data.py
+    deps:
+    - data/insurance.csv
+    - src/prepare_data.py
+    outs:
+    - data/processed_full.npz
+    - data/processed_split.npz
+
+  train_mlp:
+    cmd: python src/train_mlp.py
+    deps:
+    - data/processed_split.npz
+    - params.yaml
+    - src/train_mlp.py
+    outs:
+    - models/train_mlp_model.joblib
+    - runs/train_mlp  # TensorBoard日志目录，作为输出保
+  evaluate_mlp:
+    cmd: python src/evaluate_mlp.py
+    deps:
+    - data/processed_split.npz
+    - models/train_mlp_model.joblib
+    - src/evaluate_mlp.py
+    outs:
+    - metrics/evaluate_mlp_metrics.json
+  full_mlp:
+    cmd: python src/full_mlp.py
+    deps:
+    - data/processed_full.npz
+    - models/train_mlp_model.joblib
+    - src/full_mlp.py
+    outs:
+    - metrics/full_mlp_metrics.json
+  train_xgboost:
+    cmd: python src/train_xgboost.py
+    deps:
+    - data/processed_split.npz
+    - params.yaml
+    - src/train_xgboost.py
+    outs:
+    - models/train_xgboost_model.json
+  evaluate_xgboost:
+    cmd: python src/evaluate_xgboost.py
+    deps:
+    - data/processed_split.npz
+    - models/train_xgboost_model.json
+    - src/evaluate_xgboost.py
+    outs:
+    - metrics/evaluate_xgboost_feature_importance.csv
+    - metrics/evaluate_xgboost_metrics.json
+  full_xgboost:
+    cmd: python src/full_xgboost.py
+    deps:
+    - data/processed_full.npz
+    - models/train_xgboost_model.json
+    - src/full_xgboost.py
+    outs:
+    - metrics/full_xgboost_feature_importance.csv
+    - metrics/full_xgboost_metrics.json
+  train_lr:
+    cmd: python src/train_lr.py
+    deps:
+    - data/processed_split.npz
+    - params.yaml
+    - src/train_lr.py
+    outs:
+    - models/train_lr_model.joblib
+  evaluate_lr:
+    cmd: python src/evaluate_lr.py
+    deps:
+    - data/processed_split.npz
+    - models/train_lr_model.joblib
+    - src/evaluate_lr.py
+    outs:
+    - metrics/evaluate_lr_feature_importance.csv
+    - metrics/evaluate_lr_metrics.json
+  full_lr:
+    cmd: python src/full_lr.py
+    deps:
+    - data/processed_full.npz
+    - models/train_lr_model.joblib
+    - src/full_lr.py
+    outs:
+    - metrics/full_lr_feature_importance.csv
+    - metrics/full_lr_metrics.json
+  train_dt:
+    cmd: python src/train_dt.py
+    deps:
+    - data/processed_split.npz
+    - params.yaml
+    - src/train_dt.py
+    outs:
+    - models/train_dt_model.joblib
+  evaluate_dt:
+    cmd: python src/evaluate_dt.py
+    deps:
+    - data/processed_split.npz
+    - models/train_dt_model.joblib
+    - src/evaluate_dt.py
+    outs:
+    - metrics/evaluate_dt_feature_importance.csv
+    - metrics/evaluate_dt_metrics.json
+  full_dt:
+    cmd: python src/full_dt.py
+    deps:
+    - data/processed_full.npz
+    - models/train_dt_model.joblib
+    - src/full_dt.py
+    outs:
+    - metrics/full_dt_feature_importance.csv
+    - metrics/full_dt_metrics.json
+  train_catboost:
+    cmd: python src/train_catboost.py
+    deps:
+    - data/processed_split.npz
+    - params.yaml
+    - src/train_catboost.py
+    outs:
+    - models/train_catboost_model.cb
+  evaluate_catboost:
+    cmd: python src/evaluate_catboost.py
+    deps:
+    - data/processed_split.npz
+    - models/train_catboost_model.cb
+    - src/evaluate_catboost.py
+    outs:
+    - metrics/evaluate_catboost_feature_importance.csv
+    - metrics/evaluate_catboost_metrics.json
+  full_catboost:
+    cmd: python src/full_catboost.py
+    deps:
+    - data/processed_full.npz
+    - models/train_catboost_model.cb
+    - src/full_catboost.py
+    outs:
+    - metrics/full_catboost_feature_importance.csv
+    - metrics/full_catboost_metrics.json
+  merge_metrics:
+    cmd: python src/merge_metrics.py
+    deps:
+    - metrics
+    - src/merge_metrics.py
+    outs:
+    - results/all_metrics.csv
